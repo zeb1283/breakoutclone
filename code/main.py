@@ -1,18 +1,16 @@
 import pygame, sys, time
 from settings import *
+from sprites import Player
 
 class Game:
     
     def __init__(self):
         pygame.init()
-        self.display_surface = pygame.display.set_mode((PANE_HEIGHT, PANE_WIDTH))
+        self.displaySurface = pygame.display.set_mode((PANE_WIDTH, PANE_HEIGHT))
         pygame.display.set_caption("Zebtari Breakout")
-        
+        self.genSprites = pygame.sprite.Group()
         self.background = self.background()
-    
-    def background(self):
-        image = pygame.image.load('/Users/zlakey/breakoutclone/breakoutclone/visual/backgroundpossible.jpg').convert()
-        return image
+        self.player = Player(self.genSprites)
     
     def run(self):
         ttime = time.time()
@@ -26,9 +24,16 @@ class Game:
                     pygame.quit()
                     sys.exit()
             
-            self.display_surface.blit(self.background,(0,0))
+            
+            self.displaySurface.blit(self.background,(0,0))
+            self.genSprites.update(timeChange)
+            self.genSprites.draw(self.displaySurface)
             
             pygame.display.update()
+    
+    def background(self):
+        bimage = pygame.image.load('/Users/zlakey/breakoutclone/visual/backgroundpossible.jpg').convert()
+        return bimage
 
 if __name__ == '__main__':
     game = Game()
